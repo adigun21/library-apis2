@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.libraryapis2.publisher.publisherController&apos; to &apos;PublisherController&apos;&#x0A;- Original project: &apos;library-apis&apos;&#x0A;- Original element: &apos;com.libraryapis2.publisher.publisherController&apos;&#x0A;- Renamed element: &apos;com.libraryapis2.publisher.PublisherController&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;publisherController&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.libraryapis2.publisher{publisherController.java[publisherController" matchStrategy="1" name="PublisherController" qualified="false" references="true" similarDeclarations="false" stamp="1588903642739" textual="false" version="1.0"/>
+</session>
