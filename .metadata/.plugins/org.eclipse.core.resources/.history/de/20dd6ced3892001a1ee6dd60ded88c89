@@ -1,0 +1,13 @@
+package com.libraryapis2.publisher;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class PublisherService {
+
+	public Publisher addPublisher(Publisher publisher) {
+		
+		return null;
+	}
+
+}
