@@ -64,6 +64,15 @@ public class PublisherService {
 		
 	}
 
+
+
+	private Publisher createPublisherFromEntity(PublisherEntity pe) {
+		
+		return new Publisher(pe.getPublisherid(), pe.getName(), pe.getEmailId(), pe.getPhoneNumber());
+	}
+
+
+
 	public void updatePublisher(Publisher publisherToBeUpdated) throws LibraryResourceNotFoundException {
 		
 		Optional<PublisherEntity> publisherEntity = publisherRepository.findById(publisherToBeUpdated.getPublisherId());
@@ -81,6 +90,9 @@ public class PublisherService {
 			}
 			
 			publisherRepository.save(pe);
+				
+			
+			
 			publisherToBeUpdated = createPublisherFromEntity(pe);
 			
 		}else {
