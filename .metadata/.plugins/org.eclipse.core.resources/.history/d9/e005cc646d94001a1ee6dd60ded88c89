@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.libraryapis2.exception.LibraryResourceAlreadyExistException;
 import com.libraryapis2.exception.LibraryResourceNotFoundException;
-import com.libraryapis2.util.LibraryApiUtils;
 
 @RestController
 @RequestMapping(path = "/v1/publishers")
@@ -88,19 +86,5 @@ public class PublisherController {
 	
 	
 }
-	
-	@GetMapping(path = "/search")
-	public ResponseEntity<?> searchPublisher(@RequestParam String name) {
-		
-		if(!LibraryApiUtils.doesStringValueExist(name)) {
-			
-			return new ResponseEntity<>("please enter name for search Publisher", HttpStatus.BAD_REQUEST);
-		}
-			
-			return new ResponseEntity<>(publisherService.searchPublisher(name), HttpStatus.OK);
-		}
-		
-		
-	
 	
 }

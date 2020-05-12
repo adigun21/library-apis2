@@ -130,7 +130,7 @@ private List<Publisher> createPublisherForSearchResponse(List<PublisherEntity> p
 	
 	
 	return publisherEntities.stream()
-			.map(pe -> createPublisherFromEntity(pe))
+			.map(pe -> createPublisherFromEntity(pe)
 			.collect(Collectors.toList());
 }
 
