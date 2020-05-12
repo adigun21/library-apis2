@@ -60,7 +60,6 @@ INDEX VERSION 1.131+/Users/smizefox/eclipse-workspace/spring/library-apis-2/.met
 754252411.index
 690884178.index
 2596566099.index
-1315877037.index
 2090007597.index
 2638452642.index
 4290610682.index
