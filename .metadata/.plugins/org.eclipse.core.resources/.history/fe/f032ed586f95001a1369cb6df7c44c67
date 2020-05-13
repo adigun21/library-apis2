@@ -1,0 +1,19 @@
+spring.profiles.active=test
+
+spring.datasource.url=jdbc:mysql://localhost:3306/library_db?serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=oracle11008
+
+
+
+##Hibernate Properties
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQLInnoDBDialect
+
+#Hibernate ddl auto
+spring.jpa.hibernate.ddl-auto=none
+
+# logging configuration. This is good only for development
+logging.file.name=/Users/smizefox/Desktop/temp/logs/library-apis2/library-api2.log
+logging.file.max-size=10MB
+logging.file.max-history=5
