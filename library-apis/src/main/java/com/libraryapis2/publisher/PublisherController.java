@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +27,7 @@ import com.libraryapis2.util.LibraryApiUtils;
 @RequestMapping(path = "/v1/publishers")
 public class PublisherController {
 	
+	private static Logger logger = LoggerFactory.getLogger(PublisherController.class); 
 	private PublisherService publisherService;
 	
 	
@@ -59,9 +62,12 @@ public class PublisherController {
 	public ResponseEntity<?> addPublisher(@Valid @RequestBody Publisher publisher,
 			                              @RequestHeader(value = "TraceId", defaultValue = "") String traceId){
 		
+		
+		logger.debug("Request to add Publisher:{}", publisher);
 		if(!LibraryApiUtils.doesStringValueExist(traceId)) {
 			traceId = UUID.randomUUID().toString();
 			}
+		logger.debug("Added TraceId: {}",traceId);
 		
 		try {
 			 publisherService.addPublisher(publisher, traceId);
@@ -69,6 +75,7 @@ public class PublisherController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 		}
 		
+		logger.debug("Returning response for TraceId:{}",traceId);
 		return new ResponseEntity<>(publisher, HttpStatus.CREATED);
 	}
 	
