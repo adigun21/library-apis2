@@ -14,6 +14,7 @@ import com.libraryapis2.exception.LibraryResourceAlreadyExistException;
 import com.libraryapis2.exception.LibraryResourceNotFoundException;
 import com.libraryapis2.util.LibraryApiUtils;
 
+import ch.qos.logback.classic.Logger;
 
 @Service
 public class PublisherService {
@@ -46,7 +47,7 @@ public class PublisherService {
 			addedPublisher = publisherRepository.save(publisherEntity);
 		} catch (DataIntegrityViolationException e) {
 			logger.error("TraceId: {}, publisher already exists!!", traceId, e);
-			throw new LibraryResourceAlreadyExistException(traceId, "publisher already exists!!");
+			throw new LibraryResourceAlreadyExistException("TraceId: " + traceId + ", publisher already exists!!", traceId);
 		}
 		
 		publisherToBeAdded.setPublisherId(addedPublisher.getPublisherid());
@@ -66,7 +67,7 @@ public class PublisherService {
 			publisher = createPublisherFromEntity(pe);
 			
 		}else {
-			throw new LibraryResourceNotFoundException(traceId, "Publisher Id: " + publisherId + " Not Found");
+			throw new LibraryResourceNotFoundException("TraceId: " + traceId + ", Publisher Id: " + publisherId + " Not Found", traceId);
 		}
 		
 		return publisher;
@@ -94,7 +95,7 @@ public class PublisherService {
 			publisherToBeUpdated = createPublisherFromEntity(pe);
 			
 		}else {
-			throw new LibraryResourceNotFoundException(traceId, "Publisher Id: " + publisherToBeUpdated.getPublisherId() + " ");
+			throw new LibraryResourceNotFoundException("TraceId: " + traceId + ", Publisher Id: " + publisherToBeUpdated.getPublisherId() + " ");
 		}
 		
 		
@@ -111,8 +112,7 @@ public void deletePublisher(Integer publisherId, String traceId) throws LibraryR
 	try {
 		publisherRepository.deleteById(publisherId);
 	} catch(EmptyResultDataAccessException e) {
-		logger.error("TraceId: {}, Publisher Id:{} Not found", traceId, publisherId, e);
-		throw new LibraryResourceNotFoundException(traceId, "Publisher Id: " + publisherId + " Notfound");
+		throw new LibraryResourceNotFoundException("TraceId: " + traceId + ", Publisher Id: " + publisherId + " ");
 		
 	}
 	

@@ -111,7 +111,7 @@ public void deletePublisher(Integer publisherId, String traceId) throws LibraryR
 	try {
 		publisherRepository.deleteById(publisherId);
 	} catch(EmptyResultDataAccessException e) {
-		logger.error("TraceId: {}, Publisher Id:{} Not found", traceId, publisherId, e);
+		logger.error("TraceId: {} Publisher Id:{} Not found", traceId,publisherId, e);
 		throw new LibraryResourceNotFoundException(traceId, "Publisher Id: " + publisherId + " Notfound");
 		
 	}
