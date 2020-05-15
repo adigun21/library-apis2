@@ -1,0 +1,11 @@
+package com.libraryapis2.testUtils;
+
+import com.libraryapis2.publisher.Publisher;
+
+public class LibraryApiTestUtil {
+	
+	public static Publisher createpublisher() { 
+		return new Publisher(null,)
+	}
+
+}
