@@ -1,0 +1,63 @@
+package com.libraryapis2.publisher;
+
+import static org.junit.Assert.*;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import com.libraryapis2.exception.LibraryResourceAlreadyExistException;
+import com.libraryapis2.testUtils.LibraryApiTestUtil;
+import com.libraryapis2.testUtils.TestConstants;
+
+@RunWith(MockitoJUnitRunner.class)
+public class PublisherServiceTest {
+	
+	@Mock
+	PublisherRepository publisherRepository;
+	
+	PublisherService publisherService;
+
+	@BeforeClass
+	public  void setUp() throws Exception {
+		publisherService = new PublisherService(publisherRepository);
+	}
+
+	
+	public void testPublisherService() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testAddPublisher_success() throws LibraryResourceAlreadyExistException {
+		
+		when(publisherRepository.save(any(PublisherEntity.class)))
+			.thenReturn(LibraryApiTestUtil.createPublisherEntity());
+		Publisher publisher = LibraryApiTestUtil.createpublisher();
+		publisherService.addPublisher(publisher, TestConstants.API_TRACE_ID);
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetPublisher() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testUpdatePublisher() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testDeletePublisher() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSearchPublisher() {
+		fail("Not yet implemented");
+	}
+
+}
