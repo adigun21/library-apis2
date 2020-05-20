@@ -1,5 +1,7 @@
 package com.libraryapis2.testUtils;
 
+
+import com.libraryapis2.model.common.Gender;
 public class TestConstants {
 	
 	public static final String API_TRACE_ID = "Trace-Id";
@@ -10,6 +12,16 @@ public class TestConstants {
 	
 	public static final String TEST_PUBLISHER_EMAIL_UPDATED = "TestPublisherNew@email.com";
 	public static final String TEST_PUBLISHER_PHONE_UPDATED ="228-894-555";
+	
+	
+	//Test author details
+	public static final String TEST_AUTHOR_FIRST_NAME = "TestAuthorFn";
+	public static final String TEST_AUTHOR_LAST_NAME = "TestAuthorLn";
+	
+	public static final Gender TEST_USER_GENDER = Gender.Female;
+	
+	
+	
 }
 
 
