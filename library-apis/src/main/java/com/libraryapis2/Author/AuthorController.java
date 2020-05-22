@@ -101,7 +101,7 @@ public class AuthorController {
 }
 	
 	@GetMapping(path = "/search")
-	public ResponseEntity<?> searchAuthor(@RequestParam String firstName, String lastName,
+	public ResponseEntity<?> searchAuthor(@RequestParam String firstName, @RequestParam String lastName,
 			                                 @RequestHeader(value = "TraceId", defaultValue = "") String traceId)
 			                                		 throws LibraryResourceBadRequestException{
 		
