@@ -1,55 +1,58 @@
 package com.libraryapis2.user;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.libraryapis2.model.common.Gender;
 
-public class User {
-	
+public class User implements UserDetails {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Integer userId;
-	
-	
-	
-	@Size(min =1, max = 50, message = "username must be between 1 and 50 characters")
+
+	@Size(min = 1, max = 50, message = "username must be between 1 and 50 characters")
 	private String username;
-	
-	
-	@Size(min =8, max = 20, message = "password must be between 8 and 20 characters")
+
+	@Size(min = 8, max = 20, message = "password must be between 8 and 20 characters")
 	private String password;
-	
-	
-	@Size(min =8, max = 20, message = "firstname must be between 8 and 20 characters")
+
+	@Size(min = 8, max = 20, message = "firstname must be between 8 and 20 characters")
 	private String firstName;
-	
-	
-	@Size(min =1, max = 50, message = " lastname must be between 1 and 50 characters")
+
+	@Size(min = 1, max = 50, message = " lastname must be between 1 and 50 characters")
 	private String lastName;
-	
+
 	@Past(message = "Date of birth must be a past date")
 	private LocalDate dateOfBirth;
-	
+
 	private Gender gender;
-	
+
 	@Pattern(regexp = "\\d{3}-\\d{3}-\\d{3}", message = "Please enter phonenumber is fromat 123-456-789")
 	private String phoneNumber;
-	
+
 	@Email(message = "Please enter a valid Email Id")
 	private String emailId;
-	
+
 	private Role role;
-	
+
 	public User() {
-	
+
 	}
 
-	public User(int userId, String username, String password, String firstName, String lastName, LocalDate dateOfBirth, Gender gender, String phoneNumber,
-			 String emailId, Role role) {
+	public User(int userId, String username, String password, String firstName, String lastName, LocalDate dateOfBirth,
+			Gender gender, String phoneNumber, String emailId, Role role) {
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
@@ -62,8 +65,8 @@ public class User {
 		this.role = role;
 	}
 
-	public User(int userId, String username,  String firstName, String lastName, LocalDate dateOfBirth, Gender gender, String phoneNumber,
-			 String emailId, Role role) {
+	public User(int userId, String username, String firstName, String lastName, LocalDate dateOfBirth, Gender gender,
+			String phoneNumber, String emailId, Role role) {
 		this.userId = userId;
 		this.username = username;
 		this.firstName = firstName;
@@ -75,9 +78,8 @@ public class User {
 		this.role = role;
 	}
 
-	
-		
-	public User (String username, String firstName, String lastName, LocalDate dateOfBirth, Gender gender, String phoneNumber,String emailId) {
+	public User(String username, String firstName, String lastName, LocalDate dateOfBirth, Gender gender,
+			String phoneNumber, String emailId) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -87,13 +89,11 @@ public class User {
 		this.emailId = emailId;
 	}
 
-	public User (String username, String firstName, String lastName) {
+	public User(String username, String firstName, String lastName) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-
-
 
 	public Integer getUserId() {
 		return userId;
@@ -175,17 +175,41 @@ public class User {
 		this.role = role;
 	}
 
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+
+		return null;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+
+		return true;
+	}
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
+		return "User [" + "userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + ", gender=" + gender
 				+ ", phoneNumber=" + phoneNumber + ", emailId=" + emailId + ", role=" + role + "]";
 	}
-
-	
-	
-	
-	
 
 }
