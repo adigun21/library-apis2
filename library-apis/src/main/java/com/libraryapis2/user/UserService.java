@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.libraryapis2.exception.LibraryResourceAlreadyExistException;
@@ -22,9 +23,14 @@ public class UserService {
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(UserService.class);
 	
 	private UserRepository userRepository;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	
-	
+	public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.userRepository = userRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+
+
 
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -39,7 +45,7 @@ public class UserService {
 		UserEntity userEntity = new UserEntity(
 			
 			userToBeAdded.getUsername(),
-			SecurityConstants.NEW_USER_DEFAULT_PASSWORD,
+			bCryptPasswordEncoder.encode(SecurityConstants.NEW_USER_DEFAULT_PASSWORD),
 			 userToBeAdded.getFirstName(),
 				userToBeAdded.getLastName(),
 				userToBeAdded.getDateOfBirth(),
@@ -170,6 +176,18 @@ private List<User> createUsersForSearchResponse(List<UserEntity> userEntities) {
 			.collect(Collectors.toList());
 
 }
-	
 
+
+
+public User getUserByUsername(String username) throws LibraryResourceNotFoundException {
+	
+	UserEntity userEntity = userRepository.findByUsername(username);
+	
+	if(userEntity != null) {
+		return createUserFromEntity(userEntity);
+	}else {
+		throw new LibraryResourceNotFoundException(null, "LibraryUsername: " + username + " Not Found");
+}
+	
+}
 }

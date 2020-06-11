@@ -1,5 +1,0 @@
-package com.libraryapis2.exception;
-
-public class LibraryResourceBadRequestException {
-
-}

@@ -1,0 +1,38 @@
+package com.libraryapis2.security;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import com.libraryapis2.exception.LibraryResourceNotFoundException;
+import com.libraryapis2.user.User;
+import com.libraryapis2.user.UserService;
+
+public class UserDetailsServiceImpl  implements UserDetailsService{
+	
+	private UserService userService;
+	
+	
+
+	public UserDetailsServiceImpl(UserService userService) {
+		this.userService = userService;
+	}
+
+
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		User user = null;
+		
+		try {
+			user = userService.getUserByUsername(username);
+		} catch(LibraryResourceNotFoundException e) {
+			throw new UsernameNotFoundException(e.getMessage());
+			
+		}
+		
+		return user;
+	}
+
+}
