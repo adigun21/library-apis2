@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.libraryapis2.exception.LibraryResourceAlreadyExistException;
 import com.libraryapis2.exception.LibraryResourceBadRequestException;
 import com.libraryapis2.exception.LibraryResourceNotFoundException;
+import com.libraryapis2.exception.LibraryResourceUnauthorizedException;
 import com.libraryapis2.util.LibraryApiUtils;
 
 @RestController
@@ -53,8 +54,9 @@ public class AuthorController {
 }
 	@PostMapping
 	public ResponseEntity<?> addAuthor(@Valid @RequestBody Author author,
-			                              @RequestHeader(value = "TraceId", defaultValue = "") String traceId)
-			                            		  throws LibraryResourceAlreadyExistException{
+			                              @RequestHeader(value = "TraceId", defaultValue = "") String traceId,
+			                              @RequestHeader(value = "Authorization") String bearerToken)
+			                           throws LibraryResourceAlreadyExistException, LibraryResourceUnauthorizedException {
 		
 		
 		logger.debug("Request to add Author:{}", author);
@@ -62,6 +64,11 @@ public class AuthorController {
 			traceId = UUID.randomUUID().toString();
 			}
 		logger.debug("Added TraceId: {}",traceId);
+		
+		if(!LibraryApiUtils.isUserAdmin(bearerToken)) {
+            logger.error(LibraryApiUtils.getUserIdFromClaim(bearerToken) + " attempted to add a Author. Disallowed because user is not Admin");
+            throw new LibraryResourceUnauthorizedException(traceId, "User not allowed to Add a Author");
+        }
 	    authorService.addAuthor(author, traceId);
 		
 		logger.debug("Returning response for TraceId:{}",traceId);
@@ -70,13 +77,19 @@ public class AuthorController {
 	
 	@PutMapping(path = "/{authorId}")
 	public ResponseEntity<?> updateAuthor(@PathVariable Integer authorId, @Valid @RequestBody Author author,
-			                                 @RequestHeader(value = "TraceId", defaultValue = "") String traceId) 
-			                                		 throws LibraryResourceNotFoundException {
+			                                 @RequestHeader(value = "TraceId", defaultValue = "") String traceId,
+			                                 @RequestHeader(value = "Authorization") String bearerToken)
+			                                throws LibraryResourceNotFoundException, LibraryResourceUnauthorizedException {
 		
 		if(!LibraryApiUtils.doesStringValueExist(traceId)) {
 			traceId = UUID.randomUUID().toString();
 			}
-	
+			logger.debug("Added TraceId: {}", traceId);
+			
+		if(!LibraryApiUtils.isUserAdmin(bearerToken)) {
+            logger.error(LibraryApiUtils.getUserIdFromClaim(bearerToken) + " attempted to add a Author. Disallowed because user is not Admin");
+            throw new LibraryResourceUnauthorizedException(traceId, "User not allowed to Add a Author");
+        }
 			author.setAuthorId(authorId);
 			authorService.updateAuthor(author, traceId);
 		
@@ -87,11 +100,18 @@ public class AuthorController {
 	
 	@DeleteMapping(path = "/{authorId}")
 	public ResponseEntity<?> deleteAuthor(@PathVariable Integer authorId,
-			                                 @RequestHeader(value = "TraceId", defaultValue = "") String traceId) throws LibraryResourceNotFoundException {
+			                                 @RequestHeader(value = "TraceId", defaultValue = "") String traceId,
+			                                 @RequestHeader(value = "Authorization") String bearerToken)
+			                               throws LibraryResourceNotFoundException, LibraryResourceUnauthorizedException {
 		
 		if(!LibraryApiUtils.doesStringValueExist(traceId)) {
 			traceId = UUID.randomUUID().toString();
 			}
+		if(!LibraryApiUtils.isUserAdmin(bearerToken)) {
+            logger.error(LibraryApiUtils.getUserIdFromClaim(bearerToken) + " attempted to delete a Author. Disallowed because user is not Admin");
+            throw new LibraryResourceUnauthorizedException(traceId, "User not allowed to Add a Author");
+        }
+        logger.debug("Added TraceId: {}", traceId);
 		
 			authorService.deleteAuthor(authorId, traceId);
 		

@@ -39,6 +39,12 @@ public class LibraryControllerExceptionHandler  extends ResponseEntityExceptionH
 		return new ResponseEntity<>(new LibraryApiError(e.getTraceId(), e.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(LibraryResourceUnauthorizedException.class)
+	public final ResponseEntity<LibraryApiError> handleLibraryResourceUnauthorizedException(
+			LibraryResourceUnauthorizedException e, WebRequest webRequest) {
+		return new ResponseEntity<>(new LibraryApiError(e.getTraceId(), e.getMessage()), HttpStatus.FORBIDDEN);
+	}
+	
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<LibraryApiError> handleALLException(
 			Exception e, WebRequest webRequest) {
