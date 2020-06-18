@@ -3,10 +3,12 @@ package com.libraryapis2.security;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+@EnableWebSecurity
 public class LibraryApiSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	private UserDetailsServiceImpl userDetailsService;
@@ -23,8 +25,8 @@ public class LibraryApiSecurityConfig extends WebSecurityConfigurerAdapter{
 
         httpSecurity.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SecurityConstants.NEW_USER_REGISTRATION_URL).permitAll()
-                .antMatchers(HttpMethod.GET, "/v1/users/search").permitAll()
-                .antMatchers(HttpMethod.GET, "/v1/books/search").permitAll()
+                //.antMatchers(HttpMethod.GET, "/v1/users/search").permitAll()
+                //.antMatchers(HttpMethod.GET, "/v1/books/search").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))

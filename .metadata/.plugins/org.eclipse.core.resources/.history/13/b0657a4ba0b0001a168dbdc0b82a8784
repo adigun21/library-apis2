@@ -1,0 +1,22 @@
+package com.libraryapis2;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import com.libraryapis2.user.UserRepository;
+
+@Component
+public class ApplicationInitializer {
+	
+	BCryptPasswordEncoder bCrypyPasswordEncoder;
+	UserRepository userRepository;
+	
+	public ApplicationInitializer(BCryptPasswordEncoder bCrypyPasswordEncoder, UserRepository userRepository) {
+		this.bCrypyPasswordEncoder = bCrypyPasswordEncoder;
+		this.userRepository = userRepository;
+	}
+	
+	
+	
+
+}

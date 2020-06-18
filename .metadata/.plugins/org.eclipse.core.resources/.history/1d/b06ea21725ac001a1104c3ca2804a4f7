@@ -1,0 +1,5 @@
+package com.libraryapis2.security;
+
+public class JwtAuthorizationFilter {
+
+}

@@ -8,6 +8,8 @@ import com.libraryapis2.Author.Author;
 import com.libraryapis2.Author.AuthorEntity;
 import com.libraryapis2.publisher.Publisher;
 import com.libraryapis2.publisher.PublisherEntity;
+import com.libraryapis2.user.User;
+import com.libraryapis2.user.UserEntity;
 
 public class LibraryApiTestUtil {
 	
@@ -39,6 +41,24 @@ public class LibraryApiTestUtil {
 	public static Optional<AuthorEntity> createAuthorEntityOptional() {
 		return Optional.of(createAuthorEntity());
 	}
-
 	
+	public static User createUser(String username) {
+
+        return new User(username, TestConstants.TEST_USER_FIRST_NAME,
+                TestConstants.TEST_USER_LAST_NAME, LocalDate.now().minusYears(30), Gender.Female, TestConstants.TEST_USER_PHONE,
+                username + "@email.com");
+
+    }
+
+    public static UserEntity createUserEntity(String username) {
+        UserEntity be = new UserEntity(username, TestConstants.TEST_USER_PASSWORD, TestConstants.TEST_USER_FIRST_NAME,
+                TestConstants.TEST_USER_LAST_NAME, LocalDate.now().minusYears(20), TestConstants.TEST_USER_GENDER,
+                TestConstants.TEST_USER_PHONE, TestConstants.TEST_USER_EMAIL, "USER");
+        return be;
+    }
+
+    public static Optional<UserEntity> createUserEntityOptional(String username) {
+        return Optional.of(createUserEntity(username));
+    }
 }
+	
