@@ -1,0 +1,153 @@
+package com.libraryapis2.book;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
+
+import com.libraryapis2.exception.LibraryResourceAlreadyExistException;
+import com.libraryapis2.exception.LibraryResourceNotFoundException;
+import com.libraryapis2.util.LibraryApiUtils;
+
+
+@Service
+public class BookService {
+	
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(BookService.class);
+	
+	private BookRepository bookRepository;
+	
+	
+
+	public BookService(BookRepository bookRepository) {
+		this.bookRepository = bookRepository;
+	}
+
+
+
+	public void ddBook(Book bookToBeAdded, String traceId)
+			throws LibraryResourceAlreadyExistException {
+		
+		logger.debug("TraceId: {}, Request to add Book:{}",traceId, bookToBeAdded);
+		BookEntity bookEntity = new BookEntity(
+				bookToBeAdded.getName(),
+				bookToBeAdded.getEmailId(),
+				bookToBeAdded.getPhoneNumber()
+				);
+		
+		BookEntity addedBook = null;
+		
+		try {
+			addedBook = bookRepository.save(bookEntity);
+		} catch (DataIntegrityViolationException e) {
+			logger.error("TraceId: {}, book already exists!!", traceId, e);
+			throw new LibraryResourceAlreadyExistException(traceId, "Book already exists!!");
+		}
+		
+		bookToBeAdded.setBookId(addedBook.getBookId());
+		logger.info("TraceId: {}, Book added: {}", traceId, bookToBeAdded);
+	}
+
+
+
+	public Book getBook(Integer bookId, String traceId) throws LibraryResourceNotFoundException {
+		
+		Optional<BookEntity> bookEntity = bookRepository.findById(bookId);
+		Book book = null;
+		
+		if(bookEntity.isPresent()) {
+			
+			BookEntity be = bookEntity.get();
+			book = createBookFromEntity(be);
+			
+		}else {
+			throw new LibraryResourceNotFoundException(traceId, "Book Id: " + bookId + " Not Found");
+		}
+		
+		return book;
+		
+		
+	}
+
+	public void updateBook(Book bookToBeUpdated, String traceId) throws LibraryResourceNotFoundException {
+		
+		Optional<BookEntity> bookEntity = bookRepository.findById(bookToBeUpdated.getBookId());
+		Book book = null;
+		
+		if(bookEntity.isPresent()) {
+			
+			BookEntity pe = bookEntity.get();
+			if(LibraryApiUtils.doesStringValueExist(bookToBeUpdated.getEmailId())) {
+				pe.setEmailId(bookToBeUpdated.getEmailId());
+				
+			}
+			if(LibraryApiUtils.doesStringValueExist(bookToBeUpdated.getPhoneNumber())) {
+				pe.setPhoneNumber(bookToBeUpdated.getPhoneNumber());
+			}
+			
+			bookRepository.save(pe);
+			bookToBeUpdated = createBookFromEntity(pe);
+			
+		}else {
+			throw new LibraryResourceNotFoundException(traceId, "Book Id: " + bookToBeUpdated.getBookId() + " ");
+		}
+		
+		
+		
+		
+		
+	}
+	
+
+
+
+public void deleteBook(Integer bookId, String traceId) throws LibraryResourceNotFoundException {
+	
+	try {
+		bookRepository.deleteById(bookId);
+	} catch(EmptyResultDataAccessException e) {
+		logger.error("TraceId: {}, Book Id:{} Not found", traceId, bookId, e);
+		throw new LibraryResourceNotFoundException(traceId, "Book Id: " + bookId + " Notfound");
+		
+	}
+	
+}
+
+
+
+public List<Book> searchBook(String name, String traceId) {
+	
+	List<BookEntity> bookEntities = null;
+	if(LibraryApiUtils.doesStringValueExist(name)) {
+		bookEntities = bookRepository.findByNameContaining(name);
+	}
+	if(bookEntities != null && bookEntities.size() > 0) {
+		return createBookForSearchResponse(bookEntities);
+	}else {
+		return Collections.emptyList();
+	}
+}
+Book> createBookForSearchResponse(List<BookEntity> bookEntities) {
+	
+	
+	return bookEntities.stream()
+			.map(pe -> createBookFromEntity(pe))
+			.collect(Collectors.toList());
+}
+
+
+
+private Book createBookFromEntity(bookEntity be) {
+	
+	return new Book(be.getBookId(), be.getName(), be.getEmailId(), be.getPhoneNumber());
+}
+
+	
+	
+
+}

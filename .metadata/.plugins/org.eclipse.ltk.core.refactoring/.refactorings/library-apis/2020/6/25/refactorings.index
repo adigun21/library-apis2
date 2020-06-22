@@ -1,0 +1,19 @@
+1592451763746	Copy compilation unit
+1592451855823	Rename type 'Publisher'
+1592451883370	Copy compilation unit
+1592451947929	Rename type 'PublisherController'
+1592452095439	Copy compilation unit
+1592452135667	Rename type 'PublisherEntity'
+1592452159223	Delete element
+1592452182516	Copy compilation unit
+1592452309780	Rename type 'PublisherController'
+1592452370805	Copy compilation unit
+1592452420094	Rename type 'PublisherRepository'
+1592452445360	Copy compilation unit
+1592452533710	Rename type 'PublisherService'
+1592452978329	Rename field 'publisherId'
+1592453196180	Rename method 'getPublisher'
+1592453234900	Rename local variable 'publisherId'
+1592487678617	Rename method 'addPublisher'
+1592488476887	Rename local variable 'publisherEntities'
+1592506225987	Delete element

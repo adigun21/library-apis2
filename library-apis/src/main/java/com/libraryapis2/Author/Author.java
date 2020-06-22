@@ -38,8 +38,16 @@ public class Author {
 		this.gender = gender;
 		
 	}
+	
+	
 
 	
+	public Author(Integer authorId, String firstName, String lastName) {
+		this.authorId = authorId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
 	public Integer getAuthorId() {
 		return authorId;
 	}

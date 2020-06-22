@@ -1,0 +1,5 @@
+package com.libraryapis2.book;
+
+public class BookStatus {
+
+}
