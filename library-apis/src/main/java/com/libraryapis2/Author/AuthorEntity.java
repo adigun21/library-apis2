@@ -1,17 +1,23 @@
 package com.libraryapis2.Author;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.libraryapis2.book.BookEntity;
 import com.libraryapis2.model.common.Gender;
 
 @Entity
@@ -36,6 +42,12 @@ public class AuthorEntity {
 	@Column(name = "Gender")
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
+	
+	@ManyToMany(fetch = FetchType.LAZY,
+				cascade = CascadeType.ALL,
+				mappedBy = "authors")
+	
+	private Set<BookEntity> books = new HashSet<>();
 
 	public AuthorEntity() {
 
